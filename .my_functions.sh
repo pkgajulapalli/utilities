@@ -50,3 +50,14 @@ set_java_version() {
   echo "java -version"
   java -version
 }
+
+
+edit_mkv_file_titles () {
+  # Dependencies need to be installed:
+  # brew install mkvtoolnix
+  # This method takes all mkv files in the current directory and sets the filename
+  # (without .mkv) as its title in metadata
+  for mkvfile in *.mkv; do
+      mkvpropedit "$mkvfile" -e info -s title="${mkvfile%.*}"
+  done
+}
