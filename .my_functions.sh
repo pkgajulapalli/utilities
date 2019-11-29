@@ -28,7 +28,11 @@ checkout_master() {
   current_branch=$(git rev-parse --abbrev-ref HEAD)
   git checkout ${git_branch}
   git pull origin ${git_branch}
-  git branch -D ${current_branch}
+  if [ ${current_branch} != "${git_branch}" ]; then
+    git branch -D ${current_branch}
+  else
+    echo "Not deleting ${current_branch}"
+  fi
 }
 
 set_java_version() {
