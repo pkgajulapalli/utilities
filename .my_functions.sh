@@ -65,3 +65,5 @@ edit_mkv_file_titles () {
       mkvpropedit "$mkvfile" -e info -s title="${mkvfile%.*}"
   done
 }
+
+alias glog='git --no-pager log -n 10 --pretty=oneline'
