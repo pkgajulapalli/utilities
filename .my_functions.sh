@@ -67,3 +67,4 @@ edit_mkv_file_titles () {
 }
 
 alias glog='git --no-pager log -n 10 --pretty=oneline'
+alias ll='ls -lht'
