@@ -1,0 +1,16 @@
+# This is Git's per-user configuration file.
+[user]
+name = Praveen Gajulapalli
+email = praveenkuamr.gbvs@gmail.com
+# Please adapt and uncomment the following lines:
+#       name = Thor Odinson
+#       email = thor@mjolnir.local
+
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+
+[alias]
+        # commits not pushed to $1, master by default
+        unpushed = cherry -v
+        # because I always typo git commit --ammend, er, amend
+        amend = commit --amend
