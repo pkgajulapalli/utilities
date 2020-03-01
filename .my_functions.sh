@@ -48,7 +48,7 @@ set_java_version() {
     export JAVA_HOME=${JAVA_11_HOME}
     export PATH=$JAVA_HOME/bin/:$PATH
   else
-    export JAVA_HOME=${JAVA_HOME}
+    export JAVA_HOME=${JAVA_8_HOME}
     export PATH=$JAVA_HOME/bin/:$PATH
   fi
   echo "java -version"
