@@ -8,6 +8,8 @@ YELLOW="\[\033[01;33m\]"
 MAGNETA="\[\033[01;35m\]"
 export PS1="$GREEN[$L_CYAN\@ $GREEN\u@$YELLOW\h $MAGNETA\W $BLUE\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')$GREEN]\$ $NONE"
 export CLICOLOR=1
+# TODO: set python venv path here
+export PYTHON_VENV_PATH=~/IdeaProjects/venv/
 
 download_mp3_from_youtube() {
   if [[ ${#} = 1 ]]; then
@@ -55,6 +57,13 @@ set_java_version() {
   java -version
 }
 
+imdb_actor_search() {
+  actor_name=${1}
+  echo "Searching for actor: ${actor_name}"
+  source ${PYTHON_VENV_PATH}/bin/activate
+  python ~/IdeaProjects/imdb-search/actor_search.py "${actor_name}"
+  deactivate
+}
 
 edit_mkv_file_titles () {
   # Dependencies need to be installed:
