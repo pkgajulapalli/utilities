@@ -58,13 +58,13 @@ set_java_version() {
   java -version
 }
 
-imdb_actor_search() {
-  actor_name=${1}
-  echo "Searching for actor: ${actor_name}"
+imdb_search() {
+  person_name=${1}
+  echo "Searching for actor: ${person_name}"
   source ${PYTHON_VENV_PATH}/bin/activate
   working_dir=${PWD}
   cd ${WORKSPACE}/imdb-search/
-  python actor_search.py "${actor_name}"
+  python movie_search.py "${person_name}"
   deactivate
   cd ${working_dir}
 }
