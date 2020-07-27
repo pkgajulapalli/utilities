@@ -75,7 +75,10 @@ edit_mkv_file_titles () {
   # This method takes all mkv files in the current directory and sets the filename
   # (without .mkv) as its title in metadata
   for mkvfile in *.mkv; do
-      mkvpropedit "$mkvfile" -e info -s title="${mkvfile%.*}"
+    # edit the title
+    mkvpropedit "$mkvfile" -e info -s title="${mkvfile%.*}"
+    # edit the subtitle track name
+    mkvpropedit "$mkvfile" -e track:s1 -s name="${mkvfile%.*}"
   done
 }
 
