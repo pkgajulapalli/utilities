@@ -12,6 +12,12 @@ export CLICOLOR=1
 export WORKSPACE=~/IdeaProjects
 export PYTHON_VENV_PATH=${WORKSPACE}/venv/
 
+logger() {
+  level=$1
+  message=$2
+  echo "`date '+%Y-%m-%d %H:%M:%S'`: ${level} : ${message}"
+}
+
 download_mp3_from_youtube() {
   if [[ ${#} = 1 ]]; then
     youtube_link=$1
