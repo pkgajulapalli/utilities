@@ -18,10 +18,22 @@ logger() {
   echo "`date '+%Y-%m-%d %H:%M:%S'`: ${level} : ${message}"
 }
 
+activate_python_venv() {
+  logger DEBUG "Activating Python virtual environment"
+  source ${PYTHON_VENV_PATH}/bin/activate
+}
+
+deactivate_python_venv() {
+  logger DEBUG "Deactivating Python virtual environment"
+  deactive
+}
+
 download_mp3_from_youtube() {
   if [[ ${#} = 1 ]]; then
     youtube_link=$1
+    activate_python_venv
     youtube-dl -f 140 ${youtube_link}
+    deactivate_python_venv
   else
     logger ERROR "Usage: download_mp3_from_youtube YOUTUBE_VIDEO_LINK"
     return 1
@@ -67,11 +79,11 @@ set_java_version() {
 imdb_search() {
   person_name=${1}
   logger INFO "Searching for actor: ${person_name}"
-  source ${PYTHON_VENV_PATH}/bin/activate
+  activate_python_venv
   working_dir=${PWD}
   cd ${WORKSPACE}/imdb-search/
   python movie_search.py "${person_name}"
-  deactivate
+  deactivate_python_venv
   cd ${working_dir}
 }
 
