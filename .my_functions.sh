@@ -23,7 +23,7 @@ download_mp3_from_youtube() {
     youtube_link=$1
     youtube-dl -f 140 ${youtube_link}
   else
-    echo "Usage: download_mp3_from_youtube YOUTUBE_VIDEO_LINK"
+    logger ERROR "Usage: download_mp3_from_youtube YOUTUBE_VIDEO_LINK"
     return 1
   fi
 }
@@ -31,7 +31,7 @@ download_mp3_from_youtube() {
 checkout_master() {
   git_branch=$1
   if [ -z ${git_branch} ]; then
-    echo "Usage: checkout_master MASTER_BRANCH_NAME"
+    logger ERROR "Usage: checkout_master MASTER_BRANCH_NAME"
     return 1
   fi
   current_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -40,7 +40,7 @@ checkout_master() {
   if [ ${current_branch} != "${git_branch}" ]; then
     git branch -D ${current_branch}
   else
-    echo "Not deleting ${current_branch}"
+    logger INFO "Not deleting ${current_branch}"
   fi
 }
 
@@ -48,10 +48,10 @@ set_java_version() {
   version=$1
   if [ -z ${version} ]; then
     version=8
-    echo -e "Usage: set_java_version VERSION_NUMBER\nDidn't receive argument for version number. Setting to default version ${version}"
+    logger ERROR -e "Usage: set_java_version VERSION_NUMBER\nDidn't receive argument for version number. Setting to default version ${version}"
   fi
 
-  echo "Setting java version to ${version}"
+  logger INFO "Setting java version to ${version}"
 
   if [ ${version} == 11 ]; then
     export JAVA_HOME=${JAVA_11_HOME}
@@ -60,13 +60,13 @@ set_java_version() {
     export JAVA_HOME=${JAVA_8_HOME}
     export PATH=$JAVA_HOME/bin/:$PATH
   fi
-  echo "java -version"
+  logger INFO "java -version"
   java -version
 }
 
 imdb_search() {
   person_name=${1}
-  echo "Searching for actor: ${person_name}"
+  logger INFO "Searching for actor: ${person_name}"
   source ${PYTHON_VENV_PATH}/bin/activate
   working_dir=${PWD}
   cd ${WORKSPACE}/imdb-search/
