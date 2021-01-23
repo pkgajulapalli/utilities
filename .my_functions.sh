@@ -28,6 +28,43 @@ deactivate_python_venv() {
   deactive
 }
 
+get_cron_expression() {
+  minutes=$1
+  echo $(date -v+${minutes}M "+%M %H %d")
+}
+
+remove_entry_from_cron() {
+  temp_file_name=$1
+  # update the cronjob
+  cron_file=$(mktemp)
+  crontab -l | grep -v "${temp_file_name}" > ${cron_file}
+  crontab ${cron_file}
+  rm ${cron_file}
+  # remove the file
+  rm ${temp_file_name}
+
+}
+
+voice_reminder() {
+  minutes=$1
+  message=$2
+
+  # create temporary file
+  temp_file=$(mktemp)
+  # set the file content
+  echo "say ${message}" > ${temp_file}
+  echo "source ~/.my_functions.sh && remove_entry_from_cron \"${temp_file}\"" >> ${temp_file}
+  # make the temp file executable
+  chmod +x ${temp_file}
+  # schedule the file to run at specified time
+  cron_file=$(mktemp)
+  crontab -l > ${cron_file}
+  cron_expression=$(get_cron_expression $minutes)
+  echo "${cron_expression} * * bash ${temp_file}" >> ${cron_file}
+  crontab ${cron_file}
+  rm ${cron_file}
+}
+
 download_mp3_from_youtube() {
   if [[ ${#} = 1 ]]; then
     youtube_link=$1
