@@ -124,7 +124,7 @@ imdb_search() {
   cd ${working_dir}
 }
 
-edit_mkv_file_titles () {
+edit_mkv_file_titles() {
   # Dependencies need to be installed:
   # brew install mkvtoolnix
   # This method takes all mkv files in the current directory and sets the filename
@@ -135,6 +135,16 @@ edit_mkv_file_titles () {
     # edit the subtitle track name
     mkvpropedit "$mkvfile" -e track:s1 -s name="${mkvfile%.*}"
   done
+}
+
+enter_incognito_mode() {
+  unset HISTFILE
+}
+
+exit_incognito_mode() {
+  if [ -z "$HISTFILE" ]; then
+   HISTFILE="~/.bash_history"
+  fi
 }
 
 alias glog='git --no-pager log -n 10 --pretty=oneline'
