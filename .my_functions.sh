@@ -25,7 +25,7 @@ activate_python_venv() {
 
 deactivate_python_venv() {
   logger DEBUG "Deactivating Python virtual environment"
-  deactive
+  deactivate
 }
 
 get_cron_expression() {
