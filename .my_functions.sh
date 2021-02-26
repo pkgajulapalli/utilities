@@ -8,14 +8,25 @@ YELLOW="\[\033[01;33m\]"
 MAGNETA="\[\033[01;35m\]"
 export PS1="$GREEN[$L_CYAN\@ $GREEN\u@$YELLOW\h $MAGNETA\W $BLUE\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')$GREEN]\$ $NONE"
 export CLICOLOR=1
-# TODO: set python venv path here
+
+# TODO: update the workspace folder
 export WORKSPACE=~/IdeaProjects
+# TODO: set python venv path here
 export PYTHON_VENV_PATH=${WORKSPACE}/venv/
+# TODO: store github token here
+export GITHUB_TOKEN_FILE=${WORKSPACE}/.my_github_token
 
 logger() {
   level=$1
   message=$2
   echo "`date '+%Y-%m-%d %H:%M:%S'`: ${level} : ${message}"
+}
+
+copy_github_token() {
+  if [ ! -f ${GITHUB_TOKEN_FILE} ]; then
+    logger ERROR "${GITHUB_TOKEN_FILE} file is not found"
+  fi
+  pbcopy < ${GITHUB_TOKEN_FILE}
 }
 
 activate_python_venv() {
@@ -42,7 +53,6 @@ remove_entry_from_cron() {
   rm ${cron_file}
   # remove the file
   rm ${temp_file_name}
-
 }
 
 voice_reminder() {
