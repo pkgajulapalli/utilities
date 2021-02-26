@@ -75,6 +75,15 @@ voice_reminder() {
   rm ${cron_file}
 }
 
+install_youtube_dl() {
+  activate_python_venv
+  pip install -U youtube-dl
+  deactivate_python_venv
+}
+
+: '
+TODO: install_youtube_dl
+'
 download_mp3_from_youtube() {
   if [[ ${#} = 1 ]]; then
     youtube_link=$1
@@ -103,6 +112,9 @@ checkout_master() {
   fi
 }
 
+: '
+TODO: set local java home folders
+'
 set_java_version() {
   version=$1
   if [ -z ${version} ]; then
