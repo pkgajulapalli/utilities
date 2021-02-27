@@ -55,6 +55,10 @@ remove_entry_from_cron() {
   rm ${temp_file_name}
 }
 
+: '
+USAGE: voice_reminder NUM_OF_MINUTES_TO_WAIT "MESSAGE_TO_BE_SAID"
+eg: voice_reminder 10 "check charging"
+'
 voice_reminder() {
   minutes=$1
   message=$2
