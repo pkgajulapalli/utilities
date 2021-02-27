@@ -56,6 +56,8 @@ remove_entry_from_cron() {
 }
 
 : '
+TODO: provide Full Disk Access (System Preferences > Security & Privacy > Privacy > Full Disk Access) to /usr/sbin/cron
+
 USAGE: voice_reminder NUM_OF_MINUTES_TO_WAIT "MESSAGE_TO_BE_SAID"
 eg: voice_reminder 10 "check charging"
 '
