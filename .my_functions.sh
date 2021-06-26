@@ -175,6 +175,13 @@ exit_incognito_mode() {
   fi
 }
 
+start_python_server() {
+  activate_python_venv
+  python -m http.server 8000
+  echo "python http server is stopped"
+  deactivate_python_venv
+}
+
 alias glog='git --no-pager log -n 10 --pretty=oneline'
 alias gst='git status'
 alias ll='ls -lht'
