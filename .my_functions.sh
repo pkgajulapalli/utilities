@@ -182,6 +182,14 @@ start_python_server() {
   deactivate_python_venv
 }
 
+turn_on_wifi() {
+  /usr/sbin/networksetup -setairportpower Wi-Fi on
+}
+
+turn_off_wifi() {
+  /usr/sbin/networksetup -setairportpower Wi-Fi off
+}
+
 alias glog='git --no-pager log -n 10 --pretty=oneline'
 alias gst='git status'
 alias ll='ls -lht'
