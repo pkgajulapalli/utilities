@@ -22,6 +22,18 @@ logger() {
   echo "$(date '+%Y-%m-%d %H:%M:%S'): ${level} : ${message}"
 }
 
+get_default_value() {
+  default_value=$1
+  actual_value=$2
+  if [ -z "${actual_value}" ]; then
+    logger DEBUG "Value is null. Returning default value (${default_value})"
+    return ${default_value}
+  else
+    logger DEBUG "Value is not null. Returning the same (${actual_value})"
+    return ${actual_value}
+  fi
+}
+
 copy_github_token() {
   if [ ! -f ${GITHUB_TOKEN_FILE} ]; then
     logger ERROR "${GITHUB_TOKEN_FILE} file is not found"
@@ -147,10 +159,10 @@ imdb_search() {
   logger INFO "Searching for actor: ${person_name}"
   activate_python_venv
   working_dir=${PWD}
-  cd ${WORKSPACE}/imdb-search/ || exit 1
+  cd ${WORKSPACE}/imdb-search/ || return 1
   python movie_search.py "${person_name}"
   deactivate_python_venv
-  cd ${working_dir} || exit 1
+  cd ${working_dir} || return 1
 }
 
 edit_mkv_file_titles() {
@@ -179,7 +191,7 @@ exit_incognito_mode() {
 start_python_server() {
   activate_python_venv
   python -m http.server 8000
-  echo "python http server is stopped"
+  logger INFO "python http server is stopped"
   deactivate_python_venv
 }
 
@@ -189,6 +201,32 @@ turn_on_wifi() {
 
 turn_off_wifi() {
   /usr/sbin/networksetup -setairportpower Wi-Fi off
+}
+
+repeat_command() {
+  command_to_execute=$1
+
+  get_default_value 10 $2
+  time_to_wait=$? # in seconds
+
+  get_default_value 50 $3
+  num_retries=$? # num of retries allowed
+
+  get_default_value 0 $4
+  retry=$? # retry number
+
+  script_file=$(mktemp)
+  echo "$command_to_execute" > ${script_file}
+  bash ${script_file}
+  if [ $? != 0 ]; then
+    if [ ${retry} -gt ${num_retries} ]; then
+      logger INFO "Reached max number of retries(${num_retries}). Not retrying."
+      return 1
+    fi
+    logger INFO "Retry #${retry} failed. Repeating in ${time_to_wait} seconds..."
+    sleep ${time_to_wait}
+    repeat_command "${command_to_execute}" ${time_to_wait} ${num_retries} $((retry+1))
+  fi
 }
 
 alias glog='git --no-pager log -n 10 --pretty=oneline'
