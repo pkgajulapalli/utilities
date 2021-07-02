@@ -6,7 +6,7 @@ L_CYAN="\[\033[01;36m\]"
 BLUE="\[\033[01;34m\]"
 YELLOW="\[\033[01;33m\]"
 MAGNETA="\[\033[01;35m\]"
-export PS1="$GREEN[$L_CYAN\@ $GREEN\u@$YELLOW\h $MAGNETA\W $BLUE\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')$GREEN]\$ $NONE"
+export PS1="${GREEN}[$L_CYAN\@ $GREEN\u@$YELLOW\h $MAGNETA\W $BLUE\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')$GREEN]\$ $NONE"
 export CLICOLOR=1
 
 # TODO: update the workspace folder
@@ -19,7 +19,7 @@ export GITHUB_TOKEN_FILE=${WORKSPACE}/.my_github_token
 logger() {
   level=$1
   message=$2
-  echo "`date '+%Y-%m-%d %H:%M:%S'`: ${level} : ${message}"
+  echo "$(date '+%Y-%m-%d %H:%M:%S'): ${level} : ${message}"
 }
 
 copy_github_token() {
@@ -41,7 +41,7 @@ deactivate_python_venv() {
 
 get_cron_expression() {
   minutes=$1
-  echo $(date -v+${minutes}M "+%M %H %d")
+  date -v+${minutes}M "+%M %H %d"
 }
 
 remove_entry_from_cron() {
@@ -134,6 +134,7 @@ set_java_version() {
     export JAVA_HOME=${JAVA_11_HOME}
     export PATH=$JAVA_HOME/bin/:$PATH
   else
+    # shellcheck disable=SC2153
     export JAVA_HOME=${JAVA_8_HOME}
     export PATH=$JAVA_HOME/bin/:$PATH
   fi
@@ -146,10 +147,10 @@ imdb_search() {
   logger INFO "Searching for actor: ${person_name}"
   activate_python_venv
   working_dir=${PWD}
-  cd ${WORKSPACE}/imdb-search/
+  cd ${WORKSPACE}/imdb-search/ || exit 1
   python movie_search.py "${person_name}"
   deactivate_python_venv
-  cd ${working_dir}
+  cd ${working_dir} || exit 1
 }
 
 edit_mkv_file_titles() {
@@ -171,7 +172,7 @@ enter_incognito_mode() {
 
 exit_incognito_mode() {
   if [ -z "$HISTFILE" ]; then
-   HISTFILE="~/.bash_history"
+   HISTFILE="${HOME}/.bash_history"
   fi
 }
 
