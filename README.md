@@ -11,4 +11,10 @@ cp vlsub.lua /Applications/VLC.app/Contents/MacOS/share/lua/extensions/vlsub.lua
 
 # Add `source ~/.my_functions.sh` line at the end of `~/.bash_profile` file for it to take effect.
 echo "source ~/.my_functions.sh" >> ~/.bash_profile
+
+# Install python packages
+source ~/.bash_profile
+activate_python_venv
+pip install -r requirements.txt
+
 ```
