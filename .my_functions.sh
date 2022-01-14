@@ -23,13 +23,14 @@ logger() {
 }
 
 get_default_value() {
-  default_value=$1
-  actual_value=$2
+  arg_name=$1
+  default_value=$2
+  actual_value=$3
   if [ -z "${actual_value}" ]; then
-    logger DEBUG "Value is null. Returning default value (${default_value})"
+    logger DEBUG "Value is null. Returning default value (${default_value}) for argument ${arg_name}"
     return ${default_value}
   else
-    logger DEBUG "Value is not null. Returning the same (${actual_value})"
+    logger DEBUG "Value is not null. Returning the same (${actual_value}) for argument ${arg_name}"
     return ${actual_value}
   fi
 }
@@ -206,13 +207,13 @@ turn_off_wifi() {
 repeat_command() {
   command_to_execute=$1
 
-  get_default_value 10 $2
+  get_default_value "time_to_wait" 10 $2
   time_to_wait=$? # in seconds
 
-  get_default_value 50 $3
+  get_default_value "num_retries" 50 $3
   num_retries=$? # num of retries allowed
 
-  get_default_value 0 $4
+  get_default_value "retry" 0 $4
   retry=$? # retry number
 
   script_file=$(mktemp)
