@@ -232,4 +232,10 @@ repeat_command() {
 
 alias glog='git --no-pager log -n 10 --pretty=oneline'
 alias gst='git status'
+alias gd='git diff'
+alias gb="git branch | grep -e '\* ' | awk '{print \$2}'"
+alias gc='git checkout'
+alias gcb='git checkout -b'
+alias gpo='b=$(gb);git push -u origin ${b}'
+alias gcp='git cherry-pick'
 alias ll='ls -lht'
