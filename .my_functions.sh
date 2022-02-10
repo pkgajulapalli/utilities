@@ -230,6 +230,7 @@ repeat_command() {
   fi
 }
 
+# git aliases
 alias glog='git --no-pager log -n 10 --pretty=oneline'
 alias gst='git status'
 alias gd='git diff'
@@ -240,3 +241,11 @@ alias gpo='b=$(gb);git push -u origin ${b}'
 alias gcp='git cherry-pick'
 alias gcam='git commit -a -m'
 alias ll='ls -lht'
+
+# maven aliases
+alias mci='mvn clean install'
+alias mcist='mvn clean install -DskipTests'
+alias mi='mvn install'
+alias mist='mvn install -DskipTests'
+alias mt='mvn test'
+
