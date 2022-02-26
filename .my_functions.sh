@@ -141,16 +141,19 @@ set_java_version() {
     logger ERROR -e "Usage: set_java_version VERSION_NUMBER\nDidn't receive argument for version number. Setting to default version ${version}"
   fi
 
-  logger INFO "Setting java version to ${version}"
-
-  if [ ${version} == 11 ]; then
-    export JAVA_HOME=${JAVA_11_HOME}
+  # shellcheck disable=SC2034
+  new_java_home_variable_name="JAVA_${version}_HOME"
+  eval "new_java_home=\$${new_java_home_variable_name}"
+  if [ -z "${new_java_home}" ]; then
+    logger WARN "${new_java_home_variable_name} variable is not set"
+  elif [ -d ${new_java_home} ]; then
+    logger INFO "Setting java version to ${version}"
+    eval "export JAVA_HOME=\$${new_java_home_variable_name}"
     export PATH=$JAVA_HOME/bin/:$PATH
   else
-    # shellcheck disable=SC2153
-    export JAVA_HOME=${JAVA_8_HOME}
-    export PATH=$JAVA_HOME/bin/:$PATH
+    logger WARN "JAVA_${version}_HOME: ${new_java_home} directory does not exist."
   fi
+
   logger INFO "java -version"
   java -version
 }
