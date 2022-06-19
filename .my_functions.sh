@@ -252,3 +252,7 @@ alias mi='mvn install'
 alias mist='mvn install -DskipTests'
 alias mt='mvn test'
 
+alert_on_complete() {
+  command_to_execute=$1
+  eval "($command_to_execute && say done) || say failed"
+}
