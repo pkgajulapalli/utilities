@@ -256,3 +256,7 @@ alert_on_complete() {
   command_to_execute=$1
   eval "($command_to_execute && say done) || say failed"
 }
+
+# https://stackoverflow.com/a/38415982/4608329
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+
