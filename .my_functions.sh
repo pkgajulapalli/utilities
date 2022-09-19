@@ -247,7 +247,7 @@ alias ll='ls -lht'
 
 # maven aliases
 alias mci='mvn clean install'
-alias mcist='mvn clean install -DskipTests'
+alias mcist='mvn clean install -DskipTests -DskipFormatValidation'
 alias mi='mvn install'
 alias mist='mvn install -DskipTests'
 alias mt='mvn test'
